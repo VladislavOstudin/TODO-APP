@@ -8,6 +8,7 @@ export default function Header() {
   return (
     <header>
       <span>Time now: {now.toLocaleTimeString()}</span>
+      <span>Time now: {now.toLocaleTimeString()}</span>
     </header>
   )
 }
