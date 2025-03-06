@@ -6,8 +6,7 @@ export default function App() {
       <Header />
       <main>
         <h1>My TODO App</h1>
-
-      </main> 
+      </main>
     </>
   )
 }
