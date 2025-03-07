@@ -19,7 +19,7 @@
     "extends": ["airbnb/base", "plugin:react/recommended"],  // Добавляем React плагин
     "plugins": ["react"],  // Подключаем плагин React
     "rules": {
-        "quotes": ["error", "double"],  // Двойные кавычки
+        "quotes": ["error", "single"],  // Двойные кавычки
         "max-len": ["error", 150, { "ignoreUrls": true }],
         "no-tabs": "warn",
         "no-alert": "warn",
