@@ -20,7 +20,7 @@
     "plugins": ["react"],  // Подключаем плагин React
     "rules": {
         "quotes": ["error", "single"],  // Двойные кавычки
-        "max-len": ["error", 150, { "ignoreUrls": true }],
+        "max-len": ["error", 120, { "ignoreUrls": true }],
         "no-tabs": "warn",
         "no-alert": "warn",
         "prefer-destructuring": "off"
