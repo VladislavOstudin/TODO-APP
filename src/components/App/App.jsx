@@ -60,6 +60,7 @@ export default function App() {
       <Header />
       <section className="todoApp">
         <NewTaskForm onAdd={handleAddTask} />
+        <NewTaskForm onAdd={handleAddTask} />
         <section className="main">
           <TaskList tasks={filteredTasks} onToggle={handleToggleTask} onDelete={handleDeleteTask} onEdit={handleEditTask} />
           <Footer
