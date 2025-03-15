@@ -58,8 +58,6 @@ export default function App() {
   return (
     <>
       <Header />
-      <Header />
-      <Header />
       <section className="todoApp">
         <NewTaskForm onAdd={handleAddTask} />
         <section className="main">
