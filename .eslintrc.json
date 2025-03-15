@@ -1,4 +1,24 @@
 {
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "ignorePatterns": ["node_modules", "dist", "build"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "prettier", "import"],
   "rules": {
     "indent": ["error", 2],
     "prettier/prettier": "error",
@@ -17,31 +37,10 @@
       }
     ]
   },
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
-  "ignorePatterns": ["node_modules", "dist", "build"],
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "airbnb/base",
-    "plugin:prettier/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings"
-  ],
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 12,
-    "sourceType": "module"
-  },
-  "plugins": ["react", "prettier", "import"],
   "settings": {
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
         "moduleDirectory": ["node_modules", "src/"]
       }
     }
