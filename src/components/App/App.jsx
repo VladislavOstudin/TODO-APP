@@ -10,10 +10,17 @@ import './App.css'
 export default function App() {
   const [tasks, setTasks] = useState([])
   const [filteredTasks, setFilteredTasks] = useState(tasks)
+  const [filter, setFilter] = useState('all')
 
   useEffect(() => {
-    setFilteredTasks(tasks)
-  }, [tasks])
+    let filtered = tasks
+    if (filter === 'active') {
+      filtered = tasks.filter((task) => task.completed === false)
+    } else if (filter === 'completed') {
+      filtered = tasks.filter((task) => task.completed === true)
+    }
+    setFilteredTasks(filtered)
+  }, [tasks, filter])
 
   const handleAddTask = (text) => {
     const newTask = {
@@ -43,17 +50,11 @@ export default function App() {
     setTasks(tasks.filter((task) => task.completed === false))
   }
 
-  const allTasks = () => {
-    setFilteredTasks(tasks)
-  }
+  const allTasks = () => setFilter('all')
 
-  const activeTasks = () => {
-    setFilteredTasks(tasks.filter((task) => task.completed === false))
-  }
+  const activeTasks = () => setFilter('active')
 
-  const completedTasks = () => {
-    setFilteredTasks(tasks.filter((task) => task.completed === true))
-  }
+  const completedTasks = () => setFilter('completed')
 
   return (
     <>
