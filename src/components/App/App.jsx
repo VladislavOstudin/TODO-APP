@@ -22,12 +22,14 @@ export default function App() {
     setFilteredTasks(filtered)
   }, [tasks, filter])
 
-  const handleAddTask = (text) => {
+  const handleAddTask = (text, timeLeft) => {
     const newTask = {
       id: Date.now(),
       text,
       completed: false,
       createdAt: new Date().toISOString(),
+      timeLeft,
+      isRunning: false,
     }
     setTasks([...tasks, newTask])
   }
@@ -56,6 +58,10 @@ export default function App() {
 
   const completedTasks = () => setFilter('completed')
 
+  const handleUpdateTask = (id, timeLeft, isRunning) => {
+    setTasks((tasks) => tasks.map((task) => (task.id === id ? { ...task, timeLeft, isRunning } : task)))
+  }
+
   return (
     <>
       <Header />
@@ -67,6 +73,7 @@ export default function App() {
             onToggle={handleToggleTask}
             onDelete={handleDeleteTask}
             onEdit={handleEditTask}
+            onUpdate={handleUpdateTask}
           />
           <Footer
             tasksLeft={tasksLeft}

@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import PropTypes from 'prop-types'
+
+import Timer from '../Timer'
+
 import './Task.css'
 
-export default function Task({ task, onToggle, onDelete, onEdit }) {
+export default function Task({ task, onToggle, onDelete, onEdit, onUpdateTask }) {
   const [isEditing, setIsEditing] = useState(false)
   const [newText, setNewText] = useState(task.text)
 
@@ -34,8 +37,9 @@ export default function Task({ task, onToggle, onDelete, onEdit }) {
       <div className="view">
         <input className="toggle" type="checkbox" checked={task.completed} onChange={() => onToggle(task.id)} />
         <label>
-          <span className="description">{task.text}</span>
-          <span className="created">created {timeAgo} ago</span>
+          <span className="title">{task.text}</span>
+          <Timer taskId={task.id} initialTime={task.timeLeft} isRunning={task.isRunning} onUpdate={onUpdateTask} />
+          <span className="description">created {timeAgo} ago</span>
         </label>
         <button className="icon icon-edit" onClick={handleEdit}></button>
         <button

@@ -1,3 +1,9 @@
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
 body {
   font:
     14px 'Helvetica Neue',
@@ -13,6 +19,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 300;
+}
+
+:focus {
+	outline: 0;
+}
+
+.hidden {
+	display: none;
 }
 
 .todoApp {
@@ -56,7 +70,7 @@ body {
 }
 
 .main {
-  position: relative;
-  z-index: 2;
-  border-top: 1px solid #e6e6e6;
+	position: relative;
+	z-index: 2;
+	border-top: 1px solid #e6e6e6;
 }

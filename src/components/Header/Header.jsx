@@ -10,9 +10,9 @@ export default function Header() {
   return (
     <main>
       <header>
-        <div className="time">Time now: {now.toLocaleTimeString()}</div>
+        <div className="my-time">Time now: {now.toLocaleTimeString()}</div>
       </header>
-      <h1 className="title">My TODO App</h1>
+      {/* <h1 className="my-title">My TODO App</h1> */}
     </main>
   )
 }

@@ -1,13 +1,23 @@
 import PropTypes from 'prop-types'
 
 import Task from '../Task'
+
 import './TaskList.css'
 
-export default function TaskList({ tasks, onToggle, onDelete, onEdit }) {
+export default function TaskList({ tasks, onToggle, onDelete, onEdit, onUpdate }) {
   return (
     <ul className="todo-list">
       {tasks.length > 0 &&
-        tasks.map((task) => <Task key={task.id} task={task} onToggle={onToggle} onDelete={onDelete} onEdit={onEdit} />)}
+        tasks.map((task) => (
+          <Task
+            key={task.id}
+            task={task}
+            onToggle={onToggle}
+            onDelete={onDelete}
+            onEdit={onEdit}
+            onUpdateTask={onUpdate}
+          />
+        ))}
     </ul>
   )
 }
@@ -25,12 +35,14 @@ TaskList.defaultProps = {
 }
 
 TaskList.propTypes = {
-  task: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    completed: PropTypes.bool.isRequired,
-    createdAt: PropTypes.string.isRequired,
-  }).isRequired,
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired,
+      completed: PropTypes.bool.isRequired,
+      createdAt: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   onToggle: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,

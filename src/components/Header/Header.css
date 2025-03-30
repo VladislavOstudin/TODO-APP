@@ -1,4 +1,4 @@
-.time {
+.my-time {
   margin-top: 20px;
   height: 100%;
   width: 100x;
@@ -7,7 +7,7 @@
   color: grey;
 }
 
-.title {
+.my-title {
   margin-top: 20px;
   font-size: 1.5em;
   text-align: center;
