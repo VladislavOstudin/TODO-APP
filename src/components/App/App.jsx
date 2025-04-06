@@ -22,6 +22,36 @@ export default function App() {
     setFilteredTasks(filtered)
   }, [tasks, filter])
 
+  useEffect(() => {
+    let animationFrameId
+    let lastTimestamp = 0
+    const interval = 1000
+
+    const updateTasks = (timestamp) => {
+      if (!lastTimestamp || timestamp - lastTimestamp >= interval) {
+        lastTimestamp = timestamp
+        setTasks((prevTasks) =>
+          prevTasks.map((task) => {
+            if (task.isRunning && task.timeLeft > 0) {
+              const newTime = task.timeLeft - 1
+              return {
+                ...task,
+                timeLeft: newTime,
+                isRunning: newTime > 0,
+              }
+            }
+            return task
+          })
+        )
+      }
+      animationFrameId = requestAnimationFrame(updateTasks)
+    }
+
+    animationFrameId = requestAnimationFrame(updateTasks)
+
+    return () => cancelAnimationFrame(animationFrameId)
+  }, [])
+
   const handleAddTask = (text, timeLeft) => {
     const newTask = {
       id: Date.now(),

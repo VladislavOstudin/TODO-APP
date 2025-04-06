@@ -38,7 +38,11 @@ export default function Task({ task, onToggle, onDelete, onEdit, onUpdateTask })
         <input className="toggle" type="checkbox" checked={task.completed} onChange={() => onToggle(task.id)} />
         <label>
           <span className="title">{task.text}</span>
-          <Timer taskId={task.id} initialTime={task.timeLeft} isRunning={task.isRunning} onUpdate={onUpdateTask} />
+          <Timer
+            timeLeft={task.timeLeft}
+            isRunning={task.isRunning}
+            onToggle={() => onUpdateTask(task.id, task.timeLeft, !task.isRunning)}
+          />
           <span className="description">created {timeAgo} ago</span>
         </label>
         <button className="icon icon-edit" onClick={handleEdit}></button>
