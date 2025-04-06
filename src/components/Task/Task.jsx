@@ -79,7 +79,7 @@ Task.defaultProps = {
 
 Task.propTypes = {
   task: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     text: PropTypes.string.isRequired,
     completed: PropTypes.bool.isRequired,
     createdAt: PropTypes.string.isRequired,

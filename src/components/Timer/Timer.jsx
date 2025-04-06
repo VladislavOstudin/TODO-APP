@@ -1,39 +1,40 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 
 export default function Timer({ taskId, initialTime, isRunning, onUpdate }) {
-  const [timeLeft, setTimeLeft] = useState(initialTime)
-  const [running, setRunning] = useState(isRunning)
-  const intervalRef = useRef(null)
+  const timeRef = useRef(initialTime)
+  const startTime = useRef(null)
+  const requestId = useRef(null)
 
-  useEffect(() => {
-    if (running && timeLeft > 0) {
-      intervalRef.current = setInterval(() => {
-        setTimeLeft((prev) => {
-          const newTime = prev - 1
-          if (newTime <= 0) {
-            setRunning(false)
-            onUpdate(taskId, 0, false)
-            return 0
-          }
-          onUpdate(taskId, newTime, newTime > 0)
-          return newTime
-        })
-      }, 1000)
-    } else {
-      clearInterval(intervalRef.current)
+  // Функция для обновления таймера
+  const updateTime = () => {
+    const elapsed = (performance.now() - startTime.current) / 1000
+    const newTime = Math.max(timeRef.current - Math.floor(elapsed), 0)
+    if (newTime !== timeRef.current) {
+      timeRef.current = newTime
+      onUpdate(taskId, newTime, true)
     }
 
-    return () => clearInterval(intervalRef.current)
-  }, [running, timeLeft])
+    if (newTime > 0) {
+      requestId.current = requestAnimationFrame(updateTime) // Запрашиваем следующий кадр
+    } else {
+      onUpdate(taskId, 0, false)
+    }
+  }
+
+  // Эффект для запуска и остановки таймера
+  useEffect(() => {
+    timeRef.current = initialTime
+    if (isRunning) {
+      startTime.current = performance.now() // Начинаем отсчет времени
+      requestId.current = requestAnimationFrame(updateTime) // Запускаем анимацию
+    }
+
+    return () => cancelAnimationFrame(requestId.current) // Очистка при размонтировании
+  }, [isRunning, initialTime])
 
   const toggleTimer = () => {
-    setRunning(!running)
-    if (!running && timeLeft > 0) {
-      onUpdate(taskId, timeLeft, true)
-    } else {
-      onUpdate(taskId, timeLeft, false)
-    }
+    onUpdate(taskId, timeRef.current, !isRunning)
   }
 
   const formatTime = (seconds) => {
@@ -44,8 +45,8 @@ export default function Timer({ taskId, initialTime, isRunning, onUpdate }) {
 
   return (
     <span className="description">
-      <button className={`icon ${running ? 'icon-pause' : 'icon-play'}`} onClick={toggleTimer}></button>
-      {formatTime(timeLeft)}
+      <button className={`icon ${isRunning ? 'icon-pause' : 'icon-play'}`} onClick={toggleTimer}></button>
+      {formatTime(timeRef.current)}
     </span>
   )
 }
