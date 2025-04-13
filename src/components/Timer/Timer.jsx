@@ -6,9 +6,9 @@ export default function Timer({ timeLeft, isRunning, onToggle }) {
   }
 
   return (
-    <span className="description">
+    <div className="description">
       <button className={`icon ${isRunning ? 'icon-pause' : 'icon-play'}`} onClick={onToggle}></button>
-      {formatTime(timeLeft)}
-    </span>
+      <div>{formatTime(timeLeft)}</div>
+    </div>
   )
 }

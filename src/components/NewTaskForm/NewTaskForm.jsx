@@ -34,14 +34,18 @@ export default function NewTaskForm({ onAdd }) {
           className="new-todo-form__timer"
           placeholder="Min"
           value={minutes}
-          onChange={(e) => setMinutes(e.target.value)}
+          onChange={(e) => {
+            if (/^\d*$/.test(e.target.value)) setMinutes(e.target.value)
+          }}
           onKeyDown={handleKeyDown}
         />
         <input
           className="new-todo-form__timer"
           placeholder="Sec"
           value={seconds}
-          onChange={(e) => setSeconds(e.target.value)}
+          onChange={(e) => {
+            if (/^\d*$/.test(e.target.value)) setSeconds(e.target.value)
+          }}
           onKeyDown={handleKeyDown}
         />
       </form>

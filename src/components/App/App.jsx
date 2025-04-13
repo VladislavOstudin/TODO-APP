@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import Header from '../Header'
+// import Header from '../Header'
 import Footer from '../Footer'
 import TaskList from '../TaskList'
 import NewTaskForm from '../NewTaskForm'
@@ -23,33 +23,35 @@ export default function App() {
   }, [tasks, filter])
 
   useEffect(() => {
-    let animationFrameId
-    let lastTimestamp = 0
-    const interval = 1000
+    let timeoutId
+    let lastTick = Date.now()
 
-    const updateTasks = (timestamp) => {
-      if (!lastTimestamp || timestamp - lastTimestamp >= interval) {
-        lastTimestamp = timestamp
-        setTasks((prevTasks) =>
-          prevTasks.map((task) => {
-            if (task.isRunning && task.timeLeft > 0) {
-              const newTime = task.timeLeft - 1
-              return {
-                ...task,
-                timeLeft: newTime,
-                isRunning: newTime > 0,
-              }
+    const tick = () => {
+      const now = Date.now()
+      const delta = now - lastTick
+      const drift = delta - 1000
+      lastTick = now
+
+      setTasks((prevTasks) =>
+        prevTasks.map((task) => {
+          if (task.isRunning && task.timeLeft > 0) {
+            const newTime = task.timeLeft - 1
+            return {
+              ...task,
+              timeLeft: newTime,
+              isRunning: newTime > 0,
             }
-            return task
-          })
-        )
-      }
-      animationFrameId = requestAnimationFrame(updateTasks)
+          }
+          return task
+        })
+      )
+
+      timeoutId = setTimeout(tick, Math.max(0, 1000 - drift))
     }
 
-    animationFrameId = requestAnimationFrame(updateTasks)
+    timeoutId = setTimeout(tick, 1000)
 
-    return () => cancelAnimationFrame(animationFrameId)
+    return () => clearTimeout(timeoutId)
   }, [])
 
   const handleAddTask = (text, timeLeft) => {
@@ -89,12 +91,14 @@ export default function App() {
   const completedTasks = () => setFilter('completed')
 
   const handleUpdateTask = (id, timeLeft, isRunning) => {
-    setTasks((tasks) => tasks.map((task) => (task.id === id ? { ...task, timeLeft, isRunning } : task)))
+    setTasks((tasks) =>
+      tasks.map((task) => (task.id === id ? { ...task, timeLeft, isRunning: timeLeft > 0 ? isRunning : false } : task))
+    )
   }
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <section className="todoApp">
         <NewTaskForm onAdd={handleAddTask} />
         <section className="main">

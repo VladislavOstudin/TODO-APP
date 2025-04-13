@@ -25,11 +25,16 @@ export default function Task({ task, onToggle, onDelete, onEdit, onUpdateTask })
   const [timeAgo, setTimeAgo] = useState(formatDistanceToNow(taskCreatedAt, { includeSeconds: true }))
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeAgo(formatDistanceToNow(taskCreatedAt, { includeSeconds: true }))
-    }, 1000)
+    let timeoutId
 
-    return () => clearInterval(interval)
+    const updateTime = () => {
+      setTimeAgo(formatDistanceToNow(taskCreatedAt, { includeSeconds: true }))
+      timeoutId = setTimeout(updateTime, 1000)
+    }
+
+    timeoutId = setTimeout(updateTime, 1000)
+
+    return () => clearTimeout(timeoutId)
   }, [taskCreatedAt])
 
   return (
